@@ -268,7 +268,6 @@
 
 
 ### leader_keys
-Need to learn more about this table; sometimes blocks are skipped, sometimes there's more than one row per block.
 |   cid | name             | type    |   notnull | dflt_value   |   pk | description   |
 |------:|:-----------------|:--------|----------:|:-------------|-----:|:--------------|
 |     0 | txid             | TEXT    |         1 |              |    1 |               |
@@ -305,7 +304,6 @@ Need to learn more about this table; sometimes blocks are skipped, sometimes the
 
 
 ### user_burn_support
-Apparently empty?
 |   cid | name                  | type    |   notnull | dflt_value   |   pk | description   |
 |------:|:----------------------|:--------|----------:|:-------------|-----:|:--------------|
 |     0 | txid                  | TEXT    |         1 |              |    1 |               |
@@ -381,7 +379,6 @@ Apparently empty?
 
 
 ### delegate_stx
-Apparently empty?
 |   cid | name              | type    |   notnull | dflt_value   |   pk | description   |
 |------:|:------------------|:--------|----------:|:-------------|-----:|:--------------|
 |     0 | txid              | TEXT    |         1 |              |    1 |               |
@@ -555,24 +552,25 @@ Apparently empty?
 
 
 ### payments
+##### Note: if you look up items in this table using `stacks_block_height`, you may see sibling blocks where the data from one is not part of the main blockchain. To get around this, you can use the bitcoin height to get the `block_hash` or `index_block_hash` from another table (such as block_headers). Then you'll want to use that hash to get what you need from this table.
 |   cid | name                     | type    |   notnull | dflt_value   |   pk | description   |
 |------:|:-------------------------|:--------|----------:|:-------------|-----:|:--------------|
-|     0 | address                  | TEXT    |         1 |              |    0 | Block winning miner's Stacks address; ***QUESTION: see description field below in burnchain_commit_burn***              |
+|     0 | address                  | TEXT    |         1 |              |    0 | Block winning miner's Stacks address              |
 |     1 | block_hash               | TEXT    |         1 |              |    0 |               |
 |     2 | consensus_hash           | TEXT    |         1 |              |    0 |               |
 |     3 | parent_block_hash        | TEXT    |         1 |              |    0 |               |
 |     4 | parent_consensus_hash    | TEXT    |         1 |              |    0 |               |
 |     5 | coinbase                 | TEXT    |         1 |              |    0 | Number of newly minted micro STX              |
-|     6 | tx_fees_anchored         | TEXT    |         1 |              |    0 | ?Total fees confirmed in anchor block?              |
-|     7 | tx_fees_streamed         | TEXT    |         1 |              |    0 | ?Total fees streamed?              |
+|     6 | tx_fees_anchored         | TEXT    |         1 |              |    0 | *?Total fees confirmed in anchor block?*              |
+|     7 | tx_fees_streamed         | TEXT    |         1 |              |    0 | *?Total fees streamed?*              |
 |     8 | stx_burns                | TEXT    |         1 |              |    0 | Number of micro STX burned (e.g., via BNS name-preorder function)              |
-|     9 | burnchain_commit_burn    | INT     |         1 |              |    0 | Number of Sats spent by Winning miner for the block; ***QUESTION: why are the multiple items in this column for many of the blocks?*** Examples: Block numbers 30, 45, 47, 48, 70, 81, 102, 115, 134, 136, 140, 181, 184, 193, 194...              |
-|    10 | burnchain_sortition_burn | INT     |         1 |              |    0 | Number of Sats spent by all miners for the block; ***QUESTION: same as above in burnchain_commit_burn***              |
-|    11 | miner                    | INT     |         1 |              |    0 | ?Number of miners for the block?              |
+|     9 | burnchain_commit_burn    | INT     |         1 |              |    0 | Number of Sats spent by Winning miner for the block              |
+|    10 | burnchain_sortition_burn | INT     |         1 |              |    0 | Number of Sats spent by all miners for the block              |
+|    11 | miner                    | INT     |         1 |              |    0 | *?Number of miners for the block?*              |
 |    12 | stacks_block_height      | INTEGER |         1 |              |    0 | Stacks block height              |
 |    13 | index_block_hash         | TEXT    |         1 |              |    0 |               |
 |    14 | vtxindex                 | INT     |         1 |              |    0 |               |
-|    15 | recipient                | TEXT    |         0 |              |    0 | Block winning miner's Stacks reward address; ***Question: isn't this always a duplicate of the address field? Could be removed to increase node efficiency?***              |
+|    15 | recipient                | TEXT    |         0 |              |    0 | Block winning miner's Stacks reward address; *Question: this seems to be a duplicate of the `address` field... Could it be removed to marginally increase the node's efficiency?*              |
 
 
 ### user_supporters
